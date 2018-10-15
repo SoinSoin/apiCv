@@ -1,0 +1,23 @@
+{
+  "name": "apicv",
+  "version": "1.0.0",
+  "description": "test api ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoinSoin/apiCv.git"
+  },
+  "author": "Vincent RETORE",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SoinSoin/apiCv/issues"
+  },
+  "homepage": "https://github.com/SoinSoin/apiCv#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.3.3"
+  }
+}
