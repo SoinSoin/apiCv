@@ -2,13 +2,8 @@ const mongo = require('mongoose');
 const Schema = mongo.Schema;
 
 const PageSchema = new Schema({
-    _id: ObjectId(),
-    order: {
-        type: Number
-    },
-    title: {
-        type: String
-    },
+    order: Number,
+    title: String,
     content: {
         type: [{
             title: {

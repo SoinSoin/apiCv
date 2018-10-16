@@ -1,27 +1,36 @@
 const express = require('express');
 const router = express.Router();
+const Page = require('../models/Page')
+
+router.post('/new_page', (req, res, next) => {
+    console.log(req.body);
+    Page.create(req.body).then((page) => {
+        res.send(page);
+    }).catch(next);
+})
 
 router.get('/page', (req, res) => {
-    res.send({
-        type: 'GET'
+    Page.find(req.body).then((page) => {
+        res.send(page);
     })
 })
 
-router.post('/page', (req, res) => {
-    res.send({
-        type: 'POST'
+router.get('/page/:id', (req, res) => {
+    Page.find({_id: req.params.id}).then( (page)=>{
+        res.send(page);
     })
 })
 
-router.put('/page/:id', (req, res) => {
-    res.send({
-        type: 'PUT'
-    })
+
+
+router.put('/modify_page/:id', (req, res) => {
 })
 
-router.delete('/page/:id', (req, res) => {
-    res.send({
-        type: 'DELETE'
+router.delete('/delete_page/:id', (req, res) => {
+    console.log(req.params.id);
+    Page.findOneAndRemove({_id: req.params.id}).then((page)=>{
+        res.send('bien supprimé')
+        // return res.redirect("/shop/coffee");
     })
 })
 
