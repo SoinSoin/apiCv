@@ -8,8 +8,8 @@ const port = 4000;
 
 // use methode by express 
 app.use(parser.json());
-app.use('/api', require('./routes/routes'));
-
+app.use('/api', require('./routes/api'));
+app.use('/api', express.static(__dirname + '/public'));
 // link for sgbd with robo3t
 mongo.connect('mongodb://127.0.0.1:27017/mypage', {
     useNewUrlParser: true
