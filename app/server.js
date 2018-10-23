@@ -4,17 +4,18 @@ const app = express();
 const http = require('http');
 const parser = require('body-parser');
 const mongo = require('mongoose');
-const port = 3000;
-// use methode by express 
+const port = 3000; 
 app.use(parser.json());
-app.use('/api/page', require('./routes/api'));
+// call my api route
+app.use('/api/', require('./routes/api'));
 // app.use('/api', express.static(__dirname + '/public'));
-// link for sgbd with robo3t
-console.log('test')
-    mongo.connect('mongodb://mongo/mypage', {
-        useNewUrlParser: true
-    });
-    mongo.Promise = global.Promise;
+// connect to mongo sgbd
+mongo.connect('mongodb://mongo/mypage', {
+    useNewUrlParser: true
+});
+mongo.Promise = global.Promise;
+mongo.connection
+// server start
 try {
     let startServer = http.createServer(app).listen(port);
 } catch (error) {

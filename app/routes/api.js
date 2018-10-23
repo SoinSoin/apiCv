@@ -5,11 +5,9 @@ const Page = require('../models/Page')
 // router.use('/admin/', express.static(__dirname + './public'));
 
 // all result
-router.get(`/`, (req, res) => {
+router.get(`/page`, (req, res) => {
     Page.find(req.body).then((page) => {
-        res.send({
-            "cle":"valeur"
-        });
+        res.send(page);
     })
 })
 
@@ -24,15 +22,8 @@ router.get('/admin/page/:id', (req, res) => {
 
 // create a page
 router.post('/new_page/', (req, res, next) => {
-    // req.query.order = parseInt(req.query.order)
-    console.log(req.query.content );
     req.query.content = JSON.parse(req.query.content)
-
-    Page.create({
-        order:req.query.order,
-        title: req.query.order,
-        content: req.query.content
-    }).then((page) => {
+    Page.create(req.query).then((page) => {
         res.send(req.query);
     }).catch(next);
 })
