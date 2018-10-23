@@ -5,9 +5,11 @@ const Page = require('../models/Page')
 // router.use('/admin/', express.static(__dirname + './public'));
 
 // all result
-router.get(`/page`, (req, res) => {
+router.get(`/`, (req, res) => {
     Page.find(req.body).then((page) => {
-        res.send(page);
+        res.send({
+            "cle":"valeur"
+        });
     })
 })
 

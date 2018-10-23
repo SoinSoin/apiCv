@@ -18,6 +18,6 @@
   "homepage": "https://github.com/SoinSoin/apiCv#readme",
   "dependencies": {
     "express": "^4.16.4",
-    "mongoose": "^5.3.3"
+    "mongoose": "^5.3.5"
   }
 }
