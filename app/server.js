@@ -7,7 +7,7 @@ const mongo = require('mongoose');
 const port = 3000; 
 app.use(parser.json());
 // call my api route
-app.use('/api/', require('./routes/api'));
+app.use('api/', require('./routes/api'));
 // app.use('/api', express.static(__dirname + '/public'));
 // connect to mongo sgbd
 mongo.connect('mongodb://mongo/mypage', {

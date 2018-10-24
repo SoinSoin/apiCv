@@ -4,6 +4,8 @@ const Page = require('../models/Page')
 
 // router.use('/admin/', express.static(__dirname + './public'));
 
+// --- start page ---
+
 // all result
 router.get(`/page`, (req, res) => {
     Page.find(req.body).then((page) => {
@@ -29,11 +31,11 @@ router.post('/new_page/', (req, res, next) => {
 })
 
 // change page
-router.put('admin/modify_page/:id', (req, res) => {})
+router.put('admin/change_page/:id', (req, res) => {})
 
 // delete a page
 router.delete('/delete_page/:id', (req, res) => {
-    Page.findOneAndRemove({
+    Page.remove({
         _id: req.params.id
     }).then((page) => {
         res.send('bien supprimé')
@@ -41,4 +43,5 @@ router.delete('/delete_page/:id', (req, res) => {
     })
 })
 
+// --- end page ---
 module.exports = router;
