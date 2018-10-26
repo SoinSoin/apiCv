@@ -1,4 +1,18 @@
-app/.env
-app/node_modules/
-app/jspm_packages/
-data/
+app/*/.env
+app/*/node_modules/
+app/*/jspm_packages/
+
+app/*/.DS_Store
+app/*/dist/
+app/*/npm-debug.log*
+app/*/yarn-debug.log*
+app/*/yarn-error.log*
+
+# Editor directories and files
+app/*/.idea
+app/*/.vscode
+app/*/*.suo
+app/*/*.ntvs*
+app/*/*.njsproj
+app/*/*.sln
+

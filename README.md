@@ -7,3 +7,4 @@
 - docker rm $(docker ps -a -q) -> delete all containers
 - docker rmi $(docker images -q) -> delete all images
 ```
+(in docker compose : 'tty: true')

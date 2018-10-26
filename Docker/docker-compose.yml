@@ -1,20 +1,39 @@
 version: "3"
 services:
-  app:
-    container_name: app   
+  server:
+    container_name: server   
     restart: always
     build:
       context: ../.
-      dockerfile: Docker/node/Dockerfile
-    command: nodemon -L server.js
+      dockerfile: Docker/server/Dockerfile
+    command: nodemon -L server
     ports:
       - "3000:3000"
     volumes:
       - ../app:/usr/src/app/
-      - usr/src/app/node_modules/
+      - ../app/server:/usr/src/app/server/
+      - usr/src/app/server/node_modules/
     depends_on:
       - mongo
   mongo:
     image: mongo
     ports:
       - "27017:27017"
+  client:
+    container_name: client
+    restart: always
+    build:
+      context: ../.
+      dockerfile: Docker/client/Dockerfile
+    command: npm run dev  
+    ports:
+      - "8080:8080"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ../app:/usr/src/app/
+      - ../app/client:/usr/src/app/client/
+      - usr/src/app/client/node_modules/
+    depends_on:
+      - server
+  
