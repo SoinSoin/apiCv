@@ -1,5 +1,5 @@
 FROM node:latest
-RUN  npm install -g @vue/cli && npm install -g @vue/cli-init && npm install -g nodemon
+RUN  npm install -g @vue/cli && npm install -g @vue/cli-init
 WORKDIR /usr/src/app/client/
 COPY app/client/package.json .
 RUN npm install
