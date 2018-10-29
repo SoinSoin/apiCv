@@ -3,44 +3,51 @@
     <div class="field">
       <label class="label">Name</label>
       <div class="control">
-        <input v-model="todo.name" class="input" type="text" placeholder="Text input">
+        <input v-model="me.fname" class="input" type="text" placeholder="Text input">
       </div>
     </div>
     <div class="field">
       <label class="label">lastName</label>
       <div class="control">
-        <input v-model="todo.lastName" class="input" type="text" placeholder="Text input">
+        <input v-model="me.lname" class="input" type="text" placeholder="Text input">
       </div>
     </div>
     <div class="field">
       <label class="label">mail</label>
       <div class="control">
-        <input v-model="todo.mail" class="input" type="text" placeholder="Text input">
+        <input v-model="me.mail" class="input" type="text" placeholder="Text input">
       </div>
     </div>
     <div class="field">
       <div class="control">
-        <button class="button is-link" @click="test()">Submit</button>
+        <button class="button is-link" @click="create">Submit</button>
       </div>
     </div>
   </form>
 </template> 
 
 <script>
-// import {APIService} from '../services';
-// const API_URL = 'http://localhost:4000';
-// const apiService = new APIService();
-
+import Me from "@/services/me";
 export default {
   name: "Forms",
   data() {
     return {
       showError: false,
-      todo: {}
+      me: {}
     };
   },
   methods: {
-    test() {
+    async create() {
+      try {
+        const response = await Me.create({
+          lastname: this.me.lname,
+          firstname: this.me.fname,
+          email: this.me.mail
+        });
+        this.me="";
+      } catch (error) {
+        console.log("erreur",error)
+      }
     }
   }
 };

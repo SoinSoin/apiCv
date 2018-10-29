@@ -6,7 +6,7 @@ const Me = require('../models/Me')
 // router.use('/admin/', express.static(__dirname + './public'));
 
 router.get(`/page`, (req, res) => {
-    Page.find(req.body).then((page) => {
+    Page.find(req.body).sort([['order', 1]]).then((page) => {
         res.send(page);
     })
 })  
