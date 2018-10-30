@@ -1,6 +1,6 @@
 const Me = require('../models/Me');
 const fs = require('fs');
-
+// ajouter pdf  et modifier conditions supprimer images car en cas de changement d'image l'image est supprimer  alors que l'utilisateur ne l' a pas  forcement supprimer
 module.exports = {
     getAllMe(req, res, next) {
         Me.find(req.body).then((me) => {
