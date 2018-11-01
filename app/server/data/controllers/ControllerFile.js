@@ -2,14 +2,10 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        if (req.baseUrl === '/me')
-            destFile = 'images/me/'
-        if (req.baseUrl === '/page')
-            destFile = 'images/page/'
-        if (req.baseUrl === '/page')
-            destFile = 'images/page/'
-        if (file.mimetype === 'files/pdf')
-            destFile = 'files/pdf/'
+        if (file.mimetype === 'image/jpeg' || 'image/png' || 'image/jpg' || 'image/svg')
+            destFile = 'images/'
+        if (file.mimetype === 'application/pdf')
+            destFile = 'files/'
         return cb(null, `./public/uploads/${destFile}`);
     },
     filename: (req, file, cb) => {
@@ -17,7 +13,7 @@ const storage = multer.diskStorage({
     }
 });
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/svg' || file.mimetype === 'image/pdf') {
+    if (file.mimetype === 'image/jpeg' || 'image/png' || 'image/jpg' || 'image/svg' || 'application/pdf') {
         cb(null, true);
     } else {
         cb(null, false);

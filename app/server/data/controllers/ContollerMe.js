@@ -1,6 +1,5 @@
 const Me = require('../models/Me');
 const fs = require('fs');
-// ajouter pdf  et modifier conditions supprimer images car en cas de changement d'image l'image est supprimer  alors que l'utilisateur ne l' a pas  forcement supprimer
 module.exports = {
     getAllMe(req, res, next) {
         Me.find(req.body).then((me) => {
@@ -18,53 +17,47 @@ module.exports = {
 
     createMe(req, res, next) {
         try {
-            path = req.file.path
-        } catch (error) {
-            path = null;
-        }
-        Me.create({
-            lastname: req.body.lname,
-            firstname: req.body.fname,
-            email: req.body.mail,
-            image: path,
-            phone: req.body.phone,
-            description: req.body.desc
-        }).then((me) => {
+            for (var obj in req.files) {
+                req.body[obj] = req.files[obj][0].path
+            }
+        } catch (error) {}
+        Me.create(req.body).then((me) => {
             res.send({
-                msg: 'bien envoyé',
-                val: me
+                msg: `${me.lastname}  ${me.firstname} a bien été ajouté`
             });
         }).catch(next);
     },
 
     updateMe(req, res, next) {
         try {
-            path = req.file.path
-        } catch (error) {
-            path = req.body.path
-        }
-        Me.findOneAndUpdate({
-            _id: req.params.id,
-            lastname: req.body.lname,
-            firstname: req.body.fname,
-            email: req.body.mail,
-            image: path,
-            phone: req.body.phone,
-            description: req.body.desc
-        }).then((me) => {
-            if (fs.existsSync(`./${me.image}`) && path == req.file.path)
-                fs.unlinkSync(`./${me.image}`);
-            res.send(me);
+            for (var obj in req.files) {
+                req.body[obj] = req.files[obj][0].path
+            }
+        } catch (error) {}
+        Me.findOneAndUpdate(req.body).then((me) => {
+            try {
+                for (var obj in req.files) {
+                    if (fs.existsSync(`./${me[req.files[obj][0].fieldname]}`))
+                        fs.unlinkSync(`./${me[req.files[obj][0].fieldname]}`);
+                }
+            } catch (error) {}
+            res.send({
+                msg: `${me.lastname}  ${me.firstname} a bien été modifié`
+            });
         }).catch(next);
     },
-    
+
     deleteMe(req, res, next) {
         Me.findOneAndDelete({
             _id: req.params.id
         }).then((me) => {
-            if (fs.existsSync(`./${me.image}`))
-                fs.unlinkSync(`./${me.image}`);
-            res.send(me);
+            for (var attr in me) {
+                if (fs.existsSync(`./${me[attr]}`))
+                    fs.unlinkSync(`./${me[attr]}`);
+            }
+            res.send({
+                msg: `${me.lastname}  ${me.firstname} a bien été supprimé`
+            });
         }).catch(next)
     }
 }

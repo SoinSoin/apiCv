@@ -7,8 +7,9 @@ const MeSchema = new Schema({
     email: String,
     phone: String,
     image: String,
-    description: String
+    description: String,
+    papercv: String
 })
 
 const Me = mongo.model('me', MeSchema);
-module.exports =Me;
+module.exports = Me;

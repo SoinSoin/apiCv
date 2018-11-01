@@ -2,11 +2,13 @@ const express = require('express');
 const app = express();
 const parser = require('body-parser');
 const cors = require('cors');
+const path = require('path')
 require('./config/db');
 
+parser.urlencoded({ extended: true })
 app.use('/', require('./data/routes/index'));
 app.use(cors());
 app.use(parser.json());
-app.use('/public',express.static(__dirname +'public'));
-
+app.use('/public/uploads', express.static(path.join(__dirname , 'public/uploads')));
 module.exports = app;
+

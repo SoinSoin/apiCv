@@ -4,7 +4,7 @@ const Schema = mongo.Schema;
 const PageSchema = new Schema({
     order: Number,
     title: String,
-    content: {
+    contents: {
         type: [{
             title: {
                 type: String
@@ -20,4 +20,4 @@ const PageSchema = new Schema({
 })
 
 const Page = mongo.model('page', PageSchema);
-module.exports = Page;
+module.exports = Page; 

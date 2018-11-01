@@ -1,5 +1,6 @@
 <template>
   <form>
+    <img src="http://192.168.99.100:3000/public/uploads/images/me/1540997619862-me.jpg">
     <div class="field">
       <label class="label">Name</label>
       <div class="control">
@@ -44,9 +45,9 @@ export default {
           firstname: this.me.fname,
           email: this.me.mail
         });
-        this.me="";
+        this.me = "";
       } catch (error) {
-        console.log("erreur",error)
+        console.log("erreur", error);
       }
     }
   }
