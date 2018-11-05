@@ -1,6 +1,6 @@
 const mongo = require('mongoose');
 const Schema = mongo.Schema;
-const SchemaContentPage = require('./childs/Page/SchemaContentPage');
+const ContentPageSchema = require('./childs/Page/ContentPageSchema');
 
 const PageSchema = new Schema({
     order: Number,
@@ -11,7 +11,7 @@ const PageSchema = new Schema({
     }
 })
 
-const ContentPage = mongo.model('contentpage', SchemaContentPage);
+const ContentPage = mongo.model('contentpage', ContentPageSchema);
 const Page = mongo.model('page', PageSchema);
 module.exports = {
     page: Page,
