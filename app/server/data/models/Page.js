@@ -7,7 +7,7 @@ const PageSchema = new Schema({
     title: String,
     types: {
         type: String,
-        enum: ['single', 'items'],
+        enum: ['single', 'items'],  
         
     },
     contents: [{
