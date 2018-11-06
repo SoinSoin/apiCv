@@ -5,8 +5,8 @@ const ControllerFile = require('../controllers/ControllerFile')
 
 router.get(`/`, ControllerPage.getAllPage);
 router.get(`/:id`, ControllerPage.getFindPage);
-router.post('/create', ControllerFile.upload.fields( [{name: 'image'}] ), ControllerPage.createPage)
-router.put('/update/:id', ControllerFile.upload.single('image'), ControllerPage.updatePage)
-router.delete('/delete/:id', ControllerPage.deletePage)
+router.post('/create', ControllerFile.upload.single('image'), ControllerPage.createPage)
+router.put('/update-add/:_id', ControllerFile.upload.single('image'), ControllerPage.updatePageAdd)
+// router.delete('/delete/:id', ControllerPage.deletePage)
 
 module.exports = router;

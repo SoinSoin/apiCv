@@ -34,7 +34,9 @@ module.exports = {
                 req.body[obj] = req.files[obj][0].path
             }
         } catch (error) {}
-        Me.findOneAndUpdate(req.body).then((me) => {
+        Me.findOneAndUpdate({
+            _id: req.params.id
+        }, req.body).then((me) => {
             try {
                 for (var obj in req.files) {
                     if (fs.existsSync(`./${me[req.files[obj][0].fieldname]}`))
