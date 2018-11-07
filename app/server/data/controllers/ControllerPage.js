@@ -5,9 +5,11 @@ module.exports = {
     getAllPage(req, res, next) {
         Page.page.find(req.body)
             .populate('contents')
+            .sort({
+                "order": 1
+            })
             .then((page) => {
                 res.send(page);
-                // console.log(page);
             }).catch(next);
     },
 
@@ -21,7 +23,9 @@ module.exports = {
     },
 
     createPage(req, res, next) {
-        console.log(req.body);
+        try {
+            req.body.contents.image = req.file.path;
+        } catch (error) {}
         Page.contentPage.create(req.body.contents).then((test) => {
             req.body.contents = [test._id]
             Page.page.create(req.body).then((page) => {
@@ -46,7 +50,6 @@ module.exports = {
         })
     },
     updatePageRemove(req, res, next) {
-        console.log(req.params)
         Page.contentPage.findOneAndRemove({
             _id: req.params._idContent
         }).then((contentPage) => {
@@ -63,11 +66,20 @@ module.exports = {
             }).catch(next);
         })
     },
-    // deletePage(req, res, next) {
-    //     Page.page.findOneAndDelete({
-    //         _id: req.params.id
-    //     }).then((page) => {
-    //         res.send(page);
-    //     }).catch(next)
+    deletePage(req, res, next) {
+        Page.page.findOneAndDelete({
+            _id: req.params.id
+        }).then((page) => {
+            page.contents.map((element) => {
+                Page.contentPage.findOneAndDelete({
+                    _id: element
+                }).then((contentPage) => {
+                    if (fs.existsSync(`./${contentPage.image}`))
+                        fs.unlinkSync(`./${contentPage.image}`);
+                })
+            })
+            res.send(page);
+        }).catch(next)
 
+    }
 }
