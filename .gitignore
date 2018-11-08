@@ -15,4 +15,5 @@ app/*/*.suo
 app/*/*.ntvs*
 app/*/*.njsproj
 app/*/*.sln
+app/server/config/certificat
 

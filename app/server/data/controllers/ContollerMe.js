@@ -2,7 +2,15 @@ const Me = require('../models/Me');
 const fs = require('fs');
 module.exports = {
     getAllMe(req, res, next) {
-        Me.find(req.body).then((me) => {
+        Me.find({}, {
+            __v: 0
+        }).then((me) => {
+            me.map((ele) => {
+                Object.keys(ele._doc).map((targetUrl) => {
+                    if (fs.existsSync(`./${ele[targetUrl]}`))
+                        ele[targetUrl] = `${req.protocol}://${req.headers.host}/${ele[targetUrl]}`;
+                })
+            })
             res.send(me);
         }).catch(next);
     },
@@ -10,7 +18,15 @@ module.exports = {
     getFindMe(req, res, next) {
         Me.find({
             _id: req.params.id
+        }, {
+            __v: 0
         }).then((me) => {
+            me.map((ele) => {
+                Object.keys(ele._doc).map((targetUrl) => {
+                    if (fs.existsSync(`./${ele[targetUrl]}`))
+                        ele[targetUrl] = `${req.protocol}://${req.headers.host}/${ele[targetUrl]}`;
+                })
+            })
             res.send(me);
         }).catch(next);
     },
@@ -36,7 +52,7 @@ module.exports = {
         } catch (error) {}
         Me.findOneAndUpdate({
             _id: req.params.id
-        },req.body).then((me) => {
+        }, req.body).then((me) => {
             try {
                 for (var obj in req.files) {
                     if (fs.existsSync(`./${me[req.files[obj][0].fieldname]}`))

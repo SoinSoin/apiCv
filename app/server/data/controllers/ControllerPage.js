@@ -3,12 +3,30 @@ const fs = require('fs');
 
 module.exports = {
     getAllPage(req, res, next) {
-        Page.page.find(req.body)
-            .populate('contents')
+        Page.page.find({}, {
+                __v: 0,
+            })
+            .populate('contents', {
+                __v: 0,
+            })
             .sort({
-                "order": 1
+                order: 1
             })
             .then((page) => {
+                page.map((ele, i) => {
+                    Object.keys(ele._doc).map((targetUrl) => {
+                        if (fs.existsSync(`./${ele[targetUrl]}`))
+                            ele[targetUrl] = `${req.protocol}://${req.headers.host}/${ele[targetUrl]}`;
+                        if (typeof ele[targetUrl] === "object") {
+                            try {
+                                Object.keys(ele[targetUrl][0]._doc).map((targetUrlbis) => {
+                                    if (fs.existsSync(`./${ele[targetUrl][0][targetUrlbis]}`))
+                                        ele[targetUrl][0][targetUrlbis] = `${req.protocol}://${req.headers.host}/${ele[targetUrl][0][targetUrlbis]}`;
+                                })
+                            } catch (error) {}
+                        }
+                    })
+                })
                 res.send(page);
             }).catch(next);
     },
@@ -16,8 +34,26 @@ module.exports = {
     getFindPage(req, res, next) {
         Page.page.find({
                 _id: req.params.id
-            }).populate('contents')
+            }, {
+                __v: 0,
+            }).populate('contents', {
+                __v: 0,
+            })
             .then((page) => {
+                page.map((ele, i) => {
+                    Object.keys(ele._doc).map((targetUrl) => {
+                        if (fs.existsSync(`./${ele[targetUrl]}`))
+                            ele[targetUrl] = `${req.protocol}://${req.headers.host}/${ele[targetUrl]}`;
+                        if (typeof ele[targetUrl] === "object") {
+                            try {
+                                Object.keys(ele[targetUrl][0]._doc).map((targetUrlbis) => {
+                                    if (fs.existsSync(`./${ele[targetUrl][0][targetUrlbis]}`))
+                                        ele[targetUrl][0][targetUrlbis] = `${req.protocol}://${req.headers.host}/${ele[targetUrl][0][targetUrlbis]}`;
+                                })
+                            } catch (error) {}
+                        }
+                    })
+                })
                 res.send(page);
             }).catch(next);
     },
