@@ -12,9 +12,12 @@ module.exports = {
                 })
             })
             res.send(me);
-        }).catch(next);
+        }).catch((next) => {
+            res.send({
+                msg: `Nous rencontrons des difficultés. Veuillez réessayer dans un instant.`
+            });
+        })
     },
-
     getFindMe(req, res, next) {
         Me.find({
             _id: req.params.id
@@ -28,7 +31,11 @@ module.exports = {
                 })
             })
             res.send(me);
-        }).catch(next);
+        }).catch((next) => {
+            res.send({
+                msg: `Nous rencontrons des difficultés. Veuillez réessayer dans un instant.`
+            });
+        })
     },
 
     createMe(req, res, next) {
@@ -41,7 +48,11 @@ module.exports = {
             res.send({
                 msg: `${me.lastname}  ${me.firstname} a bien été ajouté`
             });
-        }).catch(next);
+        }).catch((next) => {
+            res.send({
+                msg: `Une erreur est survenue lors de l'ajout de ${me.lastname}  ${me.firstname} ou les fichiers nes sont pas au format: jpg | jpeg | svg | png | pdf. Veuillez réessayer dans un instant.`
+            });
+        })
     },
 
     updateMe(req, res, next) {
@@ -62,9 +73,12 @@ module.exports = {
             res.send({
                 msg: `${me.lastname}  ${me.firstname} a bien été modifié`
             });
-        }).catch(next);
+        }).catch((next) => {
+            res.send({
+                msg: `Une erreur est survenue lors de la modification de ${me.lastname}  ${me.firstname} ou les fichiers nes sont pas au format: jpg | jpeg | svg | png | pdf. Veuillez réessayer dans un instant.`
+            });
+        })
     },
-
     deleteMe(req, res, next) {
         Me.findOneAndDelete({
             _id: req.params.id
@@ -76,6 +90,10 @@ module.exports = {
             res.send({
                 msg: `${me.lastname}  ${me.firstname} a bien été supprimé`
             });
-        }).catch(next)
+        }).catch((next) => {
+            res.send({
+                msg: `Une erreur est survenue lors de la suppression de ${me.lastname}  ${me.firstname}. Veuillez réessayer dans un instant.`
+            });
+        })
     }
 }

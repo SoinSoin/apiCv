@@ -55,7 +55,11 @@ module.exports = {
                     })
                 })
                 res.send(page);
-            }).catch(next);
+            }).catch((next) => {
+                res.send({
+                    msg: `Nous rencontrons des difficultés. Veuillez réessayer dans un instant.`
+                });
+            })
     },
 
     createPage(req, res, next) {
@@ -66,7 +70,11 @@ module.exports = {
             req.body.contents = [test._id]
             Page.page.create(req.body).then((page) => {
                 res.send(page);
-            }).catch(next);
+            }).catch((next) => {
+                res.send({
+                    msg: `Nous rencontrons des difficultés. Veuillez réessayer dans un instant.`
+                });
+            })
         })
     },
     updatePageAdd(req, res, next) {
@@ -81,8 +89,14 @@ module.exports = {
             Page.page.findOneAndUpdate({
                 _id: req.params._id
             }, req.body).then((page) => {
-                res.send(page);
-            }).catch(next);
+                res.send({
+                    msg: `${contentPage.titles} a bien été ajouté à ${page.title}`
+                });
+            }).catch((next) => {
+                res.send({
+                    msg: `Une erreur est survenue lors de l'ajout de ${contentPage.titles} ou l'image n'est pas au format: jpg | jpeg | svg | png. Veuillez réessayer dans un instant.`
+                });
+            })
         })
     },
     updatePageRemove(req, res, next) {
@@ -98,8 +112,14 @@ module.exports = {
                     contents: contentPage._id
                 }
             }).then((page) => {
-                res.send(page);
-            }).catch(next);
+                res.send({
+                    msg: `${contentPage.titles} a bien été supprimé`
+                });
+            }).catch((next) => {
+                res.send({
+                    msg: `Une erreur est survenue lors de la suppression de ${contentPage.titles}. Veuillez réessayer dans un instant.`
+                });
+            })
         })
     },
     deletePage(req, res, next) {
@@ -114,8 +134,13 @@ module.exports = {
                         fs.unlinkSync(`./${contentPage.image}`);
                 })
             })
-            res.send(page);
-        }).catch(next)
-
+            res.send({
+                msg: `${page.title} a bien été supprimé`
+            });
+        }).catch((next) => {
+            res.send({
+                msg: `Une erreur est survenue lors de la suppression de ${page.title}. Veuillez réessayer dans un instant.`
+            });
+        })
     }
 }
