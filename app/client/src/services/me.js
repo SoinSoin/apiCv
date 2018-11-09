@@ -1,8 +1,8 @@
 import Url from './url'
 
 export default {
-    create (values) {
-      return Url().post('me/create',values)
+   meAllViews (values) {
+      return Url().get('me',values)
     }
 }
 
