@@ -2,7 +2,6 @@ version: "3"
 services:
   server:
     container_name: server   
-    restart: always
     tty: true
     build:
       context: ../.
@@ -23,7 +22,6 @@ services:
       - "27017:27017"
   client:
     container_name: client
-    restart: always
     build:
       context: ../.
       dockerfile: Docker/client/Dockerfile

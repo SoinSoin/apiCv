@@ -11,7 +11,10 @@ module.exports = {
                         ele[targetUrl] = `${req.protocol}://${req.headers.host}/${ele[targetUrl]}`;
                 })
             })
-            res.send(me);
+            res.send({
+                typeof: Me.modelName,
+                val: me
+            });
         }).catch((next) => {
             res.send({
                 msg: `Nous rencontrons des difficultés. Veuillez réessayer dans un instant.`
@@ -30,7 +33,10 @@ module.exports = {
                         ele[targetUrl] = `${req.protocol}://${req.headers.host}/${ele[targetUrl]}`;
                 })
             })
-            res.send(me);
+            res.send({
+                typeof: Me.modelName,
+                val: me
+            });
         }).catch((next) => {
             res.send({
                 msg: `Nous rencontrons des difficultés. Veuillez réessayer dans un instant.`
