@@ -22,13 +22,13 @@ services:
       - "27017:27017"
   client:
     container_name: client
+    tty: true
     build:
       context: ../.
       dockerfile: Docker/client/Dockerfile
     command: npm run dev  
     ports:
       - "8080:8080"
-    tty: true
     volumes:
       - ../app:/usr/src/app/
       - ../app/client:/usr/src/app/client/

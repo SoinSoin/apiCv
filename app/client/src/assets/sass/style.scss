@@ -1,1 +1,26 @@
 @import '~bulma/bulma';
+
+.is-full-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.is-begin-maj {
+  text-transform: capitalize;
+}
+
+.box-shadow {
+  border: none !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
+  transition: all 0.3s cubic-bezier(.25, .8, .25, 1) !important;
+}
+
+.box-shadow:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
+}
+
+.box-shadow:focus {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
+  border: solid 1px rgba(0, 0, 0, 0.25) !important;
+}
