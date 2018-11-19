@@ -1,7 +1,7 @@
 import Url from './url'
 
 export default {
-  async pageAllViews() {
+  async AllViews() {
     return await Url().get('/page')
   }
 }

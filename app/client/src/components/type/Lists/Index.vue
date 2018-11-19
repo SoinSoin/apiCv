@@ -1,5 +1,5 @@
 <template>
-  <section class="section ">
+  <section class="section">
     <div class="container">
       <div class="columns">
         <div class="column is-2"></div>
@@ -13,7 +13,7 @@
 <script>
 import List from "./List";
 export default {
-  name: "home",
+  name: "type",
   components: {
     List
   }

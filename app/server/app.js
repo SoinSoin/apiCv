@@ -10,7 +10,7 @@ app.use(parser.json());
 app.use(parser.urlencoded({
     extended: true
 }))
-app.use('/', require('./data/routes/index'));
 app.use('/public/uploads', express.static(path.join(__dirname, 'public/uploads')));
-app.use('/error', express.static(path.join(__dirname, 'public/views/index.html')));
+app.use('/', require('./data/routes/index'));
+// app.use('/error', express.static(path.join(__dirname, 'public/views/index.html')));
 module.exports = app;

@@ -3,7 +3,8 @@
     <router-link
       class="box box-shadow is-normal"
       v-for="element in data"
-      :to="{ name:'type',params:{type: element.typeof}}"
+      :key="element._id"
+      :to="{ name:'list',params:{type: element.typeof}}"
     >
       <div class="columns">
         <div class="column is-4 is-full-centered">
@@ -12,7 +13,7 @@
             <font-awesome-icon
               v-if="element.typeof==='page' && element.val.length>1"
               fas
-              icon="file"
+              icon="copy"
               size="3x"
             />
             <font-awesome-icon
@@ -66,8 +67,8 @@ export default {
   // faire une méthode qui permet stocker mes valeurs de routing  dans un array dans le local storage.
   methods: {
     AllViews() {
-      Me.meAllViews().then(data => this.data.push(data.data));
-      Page.pageAllViews().then(data => this.data.push(data.data));
+      Me.AllViews().then(data => this.data.push(data.data));
+      Page.AllViews().then(data => this.data.push(data.data));
     }
   }
 };

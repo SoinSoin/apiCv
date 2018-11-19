@@ -1,6 +1,6 @@
 <template>
-  <div class="is-container is-fluid">
-    <div id="app">
+  <div id="app">
+    <div class="container is-fullhd">
       <router-view/>
     </div>
   </div>
@@ -8,8 +8,8 @@
 
 <script>
 export default {
-  name: 'App'
-}
+  name: "App"
+};
 </script>
 
 <style>
