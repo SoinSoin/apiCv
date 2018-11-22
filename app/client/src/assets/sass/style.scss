@@ -1,5 +1,60 @@
 @import '~bulma/bulma';
 
+body {
+  background-image: linear-gradient(to bottom, #2b2f55, #47375e, #614065, #79496a, #8f546d);
+  min-height: 100vh;
+}
+
+.is-circle{
+  border-radius: 50%;
+}
+
+.star {
+  position: absolute;
+  background: rgba(218, 242, 250, 0.85);
+  border-radius: 50%;
+}
+
+.pulsate-bck {
+  -webkit-animation: pulsate-bck 3s ease-in-out infinite both;
+  animation: pulsate-bck 3s ease-in-out infinite both;
+}
+
+@-webkit-keyframes pulsate-bck {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  50% {
+    -webkit-transform: scale(0.85);
+    transform: scale(0.85);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes pulsate-bck {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  50% {
+    -webkit-transform: scale(0.85);
+    transform: scale(0.85);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+
 .is-full-centered {
   display: flex;
   align-items: center;
@@ -31,11 +86,13 @@
   overflow: hidden;
   border-top-right-radius: 6px;
 }
-.modify-content:hover{
+
+.modify-content:hover {
   content: 'Modifié';
-  padding:12,5%;
+  padding: 12, 5%;
   background: rgba(0, 0, 0, 0.3);
 }
+
 .padding-box-list {
   padding: 0.7rem;
 }

@@ -6,10 +6,12 @@ import Lists from '@/components/type/Lists/Index'
 import type from '@/components/type/Type'
 
 Vue.use(Router)
+
 export default new Router({
   mode: 'history',
   base: __dirname,
-  routes: [{
+  routes: [
+    {
     path: '/home',
     name: 'home',
     component: home

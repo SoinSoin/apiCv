@@ -15,8 +15,8 @@ import CardHome from "./CardHome";
 export default {
   name: "home",
   components: {
-    CardHome
-  },
+    CardHome,
+  }
 };
 </script>
 

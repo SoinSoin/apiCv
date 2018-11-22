@@ -1,11 +1,11 @@
 <template>
   <div class="column is-12">
     <router-link
-      :to="{ name:'edit',params:{name: `${element.firstname}-${element.lastname}`}}"
+      :to="{ name:'edit',params:{name: `${element.firstname}-${element.lastname}`},query:{q:element._id}}"
       class="box box-shadow is-normal padding-box-list"
+      :dataTarget="element._id"
       v-for="element in fetchData"
       :key="element._id"
-      :element="element._id"
     >
       <!-- <embed type="application/pdf" :src="element.papercv" > -->
       <div class="columns">

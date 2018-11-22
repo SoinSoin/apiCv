@@ -13,7 +13,7 @@
 <script>
 import List from "./List";
 export default {
-  name: "type",
+  name: "Index",
   components: {
     List
   }
