@@ -5,8 +5,24 @@ body {
   min-height: 100vh;
 }
 
+.is-full-width {
+  width: 100% !important;
+}
+
+.is-full-height {
+  height: 100% !important;
+}
+
+.is-backgroundless {
+  background-color: transparent !important;
+}
+
+.is-borderless {
+  border: none;
+}
+
 .is-rounded-alone {
-  border-radius: 290486px;
+  border-radius: 290486px !important;
 }
 
 .is-circle {
@@ -99,4 +115,25 @@ body {
 
 .padding-box-list {
   padding: 0.7rem;
+}
+
+.border-radius-right {
+  border-radius: 0 290486px 290486px 0;
+}
+
+.border-radius-left {
+  border-radius: 290486px 0 0 290486px;
+}
+
+.edit {
+  position: fixed;
+  margin: 1.5em;
+  padding: 1.4em;
+  z-index: 10;
+}
+
+.icon-edit {
+  stroke: white;
+  stroke-width: 35;
+  transform: rotate(-90deg);
 }

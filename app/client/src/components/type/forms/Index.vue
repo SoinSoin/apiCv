@@ -1,7 +1,9 @@
 <template>
   <div>
+    <span class="tag is-backgroundless is-full-centered edit">
+      <font-awesome-icon fas icon="pen" size="2x" class="icon-edit"/>
+    </span>
     <me-form v-if="$route.params.type==='me'"></me-form>
-    {{dataTarget}}
   </div>
 </template>
 
