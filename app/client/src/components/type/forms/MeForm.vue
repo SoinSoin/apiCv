@@ -1,5 +1,6 @@
 <template>
   <section class="section">
+    <toast v-if="close===false" :dataNotif="res" :close="close" @childClose="childClose"></toast>
     <div class="columns">
       <div class="column is-3 is-full-centered">
         <div class="columns is-6 is-multiline">
@@ -79,7 +80,6 @@
               </div>
             </div>
           </div>
-
           <div class="column is-1"></div>
         </div>
         <div class="columns is-8">
@@ -202,7 +202,7 @@
           </button>
         </div>
         <div class="column is-2 is-full-centered">
-          <button @click="callGetApi()" class="button is-danger is-rounded is-full-centered">
+          <button @click="cancel()" class="button is-danger is-rounded is-full-centered">
             <font-awesome-icon fas icon="times" size="lg"/>
           </button>
         </div>
@@ -220,31 +220,35 @@
 
 
 <script>
+// var date = new Date();
+// date.setTime(Date.now());
+// var seconds = date.getSeconds();
+// var minutes = date.getMinutes();
+// var hour = date.getHours();
+// console.log(hour, ":", minutes, ":", seconds);
 import Me from "@/services/me";
 import Modal from "@/components/global/Modal";
+import Toast from "@/components/global/Toast";
 export default {
   name: "MeForm",
   components: {
-    Modal
+    Modal,
+    Toast
   },
   props: {
     dataTarget: String
   },
   data() {
     return {
+      res: Object,
       data: {},
       toggler: false,
+      close: true,
       files: {}
     };
   },
   beforeMount() {
     this.callGetApi();
-    var date = new Date();
-    date.setTime(Date.now());
-    var seconds = date.getSeconds();
-    var minutes = date.getMinutes();
-    var hour = date.getHours();
-    console.log(hour, ":", minutes, ":", seconds);
   },
   methods: {
     processFile(event, key) {
@@ -256,32 +260,40 @@ export default {
         data => (this.data = data.data.val[0])
       );
     },
+    cancel() {
+      this.callGetApi();
+      this.files = {};
+    },
     returnVal() {
-      var data = {
-        firstname: this.data.firstname,
-        lastname: this.data.lastname,
-        email: this.data.email,
-        phone: this.data.phone,
-        description: this.data.description,
-        image: this.files.image,
-        papercv: this.files.papercv
-      };
-      for (var prop in data) {
-        if (data[prop] === undefined) {
-          delete data[prop];
-        }
-      }
+      var bodyData = new FormData();
+      bodyData.set("firstname", this.data.firstname);
+      bodyData.set("lastname", this.data.lastname);
+      bodyData.set("email", this.data.email);
+      bodyData.set("phone", this.data.phone);
+      bodyData.set("description", this.data.description);
+      if (this.files.image !== undefined)
+        bodyData.append("image", this.files.image);
+      if (this.files.papercv !== undefined)
+        bodyData.append("papercv", this.files.papercv);
       var objClean = {
         id: this.data._id,
-        value: data
+        value: bodyData
       };
       this.sendData(objClean);
     },
     sendData(objClean) {
-      Me.updateMe(objClean).then(data => console.log(data));
+      Me.updateMe(objClean).then(data => {
+        this.res = data.data;
+        this.callGetApi();
+        this.files = {};
+        this.close = false;
+      });
     },
     childClick(event) {
       this.toggler = event;
+    },
+    childClose(event) {
+      this.close = event;
     },
     clickOpen() {
       this.toggler = true;
