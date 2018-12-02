@@ -4,6 +4,7 @@ const ControllerMe = require('../controllers/ContollerMe')
 const ControllerFile = require('../controllers/ControllerFile')
 
 // Crud for entity me is ok 
+
 router.get(`/`, ControllerMe.getAllMe);
 router.get(`/:id`, ControllerMe.getFindMe);
 router.post('/create', ControllerFile.upload.fields([{

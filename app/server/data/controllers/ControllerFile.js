@@ -1,12 +1,20 @@
 const multer = require('multer');
-
+const fs = require('fs')
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         if (file.mimetype === 'image/jpeg' || 'image/png' || 'image/jpg' || 'image/svg')
             destFile = 'images/'
         if (file.mimetype === 'application/pdf')
             destFile = 'files/'
-        return cb(null, `./public/uploads/${destFile}`);
+
+        try {
+            return cb(null, `./public/uploads/${destFile}`);
+        } catch (error) {
+            fs.mkdirSync(`./public/uploads/${destFile}`);
+            return cb(null, `./public/uploads/${destFile}`);
+        }
+
+
     },
     filename: (req, file, cb) => {
         return cb(null, Date.now() + '-' + file.originalname.replace(/ /g, '-'));

@@ -27,7 +27,10 @@ module.exports = {
                         }
                     })
                 })
-                res.send(page);
+                res.send({
+                    typeof: Page.page.modelName,
+                    val: page
+                });
             }).catch(next);
     },
 
@@ -54,7 +57,10 @@ module.exports = {
                         }
                     })
                 })
-                res.send(page);
+                res.send({
+                    typeof: Page.page.modelName,
+                    val: page
+                });
             }).catch((next) => {
                 res.send({
                     msg: `Nous rencontrons des difficultés. Veuillez réessayer dans un instant.`
