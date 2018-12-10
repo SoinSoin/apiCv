@@ -3,21 +3,34 @@
     <div class="modal-background"></div>
     <div class="content-modal"></div>
     <div class="modal-content box">
-      <div v-if="dataModal.url || dataModal.iamge">
+      <div v-if="$route.name==='edit'">
         <canvas id="pdf"></canvas>
       </div>
-      <div v-if="dataModal.txt">
-        <p>dataModal.txt</p>
+      <div v-if="$route.name==='delete'">
+        <div class="columns is-multiline">
+          <div class="column is-12">
+            <p>êtes-vous sur de vouloir supprimer {{$route.params.name.replace(/-/g, ' ')}}</p>
+          </div>
+          <div class="column is-4"></div>
+          <div class="column is-2">
+            <button @click="deleteMe()" class="input is-success">oui</button>
+          </div>
+          <div class="column is-2">
+            <button @click="redirectToEdit()" class="input is-danger">non</button>
+          </div>
+          <div class="column is-4"></div>
+        </div>
       </div>
     </div>
     <button @click="clickClose()" class="modal-close is-large" aria-label="close"></button>
   </div>
 </template>
 <script>
+import Me from "@/services/me";
 export default {
   name: "modal",
   props: {
-    dataModal: Object
+    dataModal: Object,
   },
   dataModal() {
     return {
@@ -25,10 +38,12 @@ export default {
     };
   },
   beforeMount() {
-    this.isActive = this.toggler;
-    import("pdfjs-dist/webpack").then(pdfjs => {
-      this.translatePdfToImg(pdfjs);
-    });
+    if (this.$route.name !== "delete") {
+      this.isActive = this.toggler;
+      import("pdfjs-dist/webpack").then(pdfjs => {
+        this.translatePdfToImg(pdfjs);
+      });
+    }
   },
   methods: {
     test() {
@@ -37,8 +52,21 @@ export default {
       });
     },
     clickClose() {
-      this.isActive = false;
-      this.$emit("childToggler", this.isActive);
+      if (this.$route.name !== "delete") {
+        this.isActive = false;
+        this.$emit("childToggler", this.isActive);
+      } else {
+        this.redirectToEdit();
+      }
+    },
+    redirectToEdit() {
+      // return this.$router.go({ name: "list" })
+      return this.$router.push( { name: "list" } );
+    },
+    deleteMe() {
+      Me.deleteMe(this.$route.query.q).then(() => {
+        this.redirectToEdit();
+      });
     },
     translatePdfToImg(pdfjs) {
       console.log("new");

@@ -102,7 +102,7 @@ body {
 }
 
 .is-circle {
-  border-radius: 50%;
+  border-radius: 50% !important;
 }
 
 .star {
@@ -214,6 +214,16 @@ body {
   transform: rotate(-90deg);
 }
 
-.image{
-  padding:8% !important;
+.image {
+  padding: 8% !important;
+}
+
+.btn-square {
+  height: 3em;
+  width: 3em;
+}
+
+.container-items-nav{
+  flex-basis:10% !important;
+  flex-grow:1;
 }

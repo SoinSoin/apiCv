@@ -4,18 +4,21 @@
       <font-awesome-icon fas icon="pen" size="2x" class="icon-edit"/>
     </span>
     <me-form v-if="$route.params.type==='me'"></me-form>
+    <page-form v-if="$route.params.type==='page'"></page-form>
   </div>
 </template>
 
 <script>
 import MeForm from "./MeForm";
+import PageForm from "./PageForm";
 export default {
-  name: "forms",
+  name: "forms",  
   props: {
     dataTarget: String
   },
   components: {
-    MeForm
+    MeForm,
+    PageForm
   }
 };
 </script>

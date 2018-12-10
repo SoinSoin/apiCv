@@ -52,11 +52,15 @@ module.exports = {
         } catch (error) {}
         Me.create(req.body).then((me) => {
             res.send({
-                msg: `${me.lastname}  ${me.firstname} a bien été ajouté`
+                msg: `${me.lastname}  ${me.firstname} a bien été ajouté`,
+                lastname: me.lastname,
+                firstname: me.firstname,
+                _id: me._id
             });
         }).catch((next) => {
+            console.log(me)
             res.send({
-                msg: `Une erreur est survenue lors de l'ajout de ${me.lastname}  ${me.firstname} ou les fichiers nes sont pas au format: jpg | jpeg | svg | png | pdf. Veuillez réessayer dans un instant.`
+                msg: `Une erreur est survenue lors de l'ajout de ${me.lastname}  ${me.firstname} ou les fichiers nes sont pas au format: jpg | jpeg | svg | png | pdf. Veuillez réessayer dans un instant.`,
             });
         })
     },

@@ -1,22 +1,12 @@
 <template>
   <div v-if="isLoading">Loading...</div>
   <div v-else class="column is-8">
+    <router-view/>
     <div v-if="fetch.length>0" class="columns is-multiline">
+      <div class="column is-1"></div>
       <me-list v-if="$route.params.type==='me'" :data="fetch"></me-list>
       <page-list v-if="$route.params.type==='page'" :data="fetch"></page-list>
-      <div class="column is-12">
-        <div class="columns is-variable is-8">
-          <div class="column is-4"></div>
-          <div class="column is-4 is-full-centered">
-            <a class="button is-success is-rounded">
-              <span class="icon">
-                <font-awesome-icon fas icon="plus" size="2x"/>
-              </span>
-            </a>
-          </div>
-          <div class="column is-4"></div>
-        </div>
-      </div>
+      <div class="column is-1"></div>
     </div>
     <error-page v-else :msg="`La page ${$route.params.type} n'existe pas` "></error-page>
   </div>
@@ -42,13 +32,14 @@ export default {
   },
   data() {
     return {
-      fetch: Array,
+      fetch: [],
       isLoading: true
     };
   },
   beforeMount() {
-    this.AllViews();
+    this.$watch(this.AllViews);
   },
+
   methods: {
     AllViews() {
       try {

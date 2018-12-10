@@ -194,15 +194,15 @@
       </div>
     </div>
     <div class="container">
-      <div class="columns">
+      <div class="columns is-mobile">
         <div class="column is-4"></div>
         <div class="column is-2 is-full-centered">
-          <button @click="returnVal()" class="button is-success is-rounded is-full-centered">
+          <button @click="sendData()" class="button is-success btn-square is-circle is-full-centered">
             <font-awesome-icon fas icon="check" size="lg"/>
           </button>
         </div>
         <div class="column is-2 is-full-centered">
-          <button @click="cancel()" class="button is-danger is-rounded is-full-centered">
+          <button @click="cancel()" class="button is-danger btn-square is-circle is-full-centered">
             <font-awesome-icon fas icon="times" size="lg"/>
           </button>
         </div>
@@ -220,12 +220,6 @@
 
 
 <script>
-// var date = new Date();
-// date.setTime(Date.now());
-// var seconds = date.getSeconds();
-// var minutes = date.getMinutes();
-// var hour = date.getHours();
-// console.log(hour, ":", minutes, ":", seconds);
 import Me from "@/services/me";
 import Modal from "@/components/global/Modal";
 import Toast from "@/components/global/Toast";
@@ -248,17 +242,19 @@ export default {
     };
   },
   beforeMount() {
-    this.callGetApi();
+    this.$watch(this.callGetApi);
   },
   methods: {
     processFile(event, key) {
-      this.data[key] = URL.createObjectURL(event.target.files[0]);
+      this.$set(this.data, key, URL.createObjectURL(event.target.files[0]));
       this.files[key] = event.target.files[0];
     },
     callGetApi() {
-      Me.ViewsTarget(this.$route.query.q).then(
-        data => (this.data = data.data.val[0])
-      );
+      if (this.$route.name === "edit") {
+        Me.ViewsTarget(this.$route.query.q).then(
+          data => (this.data = data.data.val[0])
+        );
+      }
     },
     cancel() {
       this.callGetApi();
@@ -266,27 +262,43 @@ export default {
     },
     returnVal() {
       var bodyData = new FormData();
-      bodyData.set("firstname", this.data.firstname);
-      bodyData.set("lastname", this.data.lastname);
-      bodyData.set("email", this.data.email);
-      bodyData.set("phone", this.data.phone);
-      bodyData.set("description", this.data.description);
-      if (this.files.image !== undefined)
-        bodyData.append("image", this.files.image);
-      if (this.files.papercv !== undefined)
-        bodyData.append("papercv", this.files.papercv);
+      for (var attrFile in this.files) {
+        delete this.data[attrFile];
+        bodyData.append(attrFile, this.files[attrFile]);
+      }
+      for (var attr in this.data) {
+        if (this.data[attr] !== undefined)
+          bodyData.set(attr, this.data[attr]);
+      }
+      return bodyData;
+    },
+    sendData() {
+      if (this.$route.name === "new") this.createMe();
+      if (this.$route.name === "edit") this.updateMe();
+    },
+    updateMe() {
       var objClean = {
         id: this.data._id,
-        value: bodyData
+        value: this.returnVal()
       };
-      this.sendData(objClean);
-    },
-    sendData(objClean) {
       Me.updateMe(objClean).then(data => {
         this.res = data.data;
         this.callGetApi();
         this.files = {};
         this.close = false;
+      });
+    },
+    createMe() {
+      Me.createMe(this.returnVal()).then(data => {
+        this.res = data.data;
+        this.files = {};
+        this.close = false;
+        console.log(data.data);
+        return this.$router.push({
+          name: "edit",
+          params: { name: `${data.data.firstname}-${data.data.lastname}` },
+          query: { q: data.data._id }
+        });
       });
     },
     childClick(event) {
