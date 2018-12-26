@@ -20,8 +20,10 @@ module.exports = {
                         if (typeof ele[targetUrl] === "object") {
                             try {
                                 Object.keys(ele[targetUrl][0]._doc).map((targetUrlbis) => {
-                                    if (fs.existsSync(`./${ele[targetUrl][0][targetUrlbis]}`))
-                                        ele[targetUrl][0][targetUrlbis] = `${req.protocol}://${req.headers.host}/${ele[targetUrl][0][targetUrlbis]}`;
+                                    ele[targetUrl].map(url => {
+                                        if (fs.existsSync(`./${url[targetUrlbis]}`))
+                                            url[targetUrlbis] = `${req.protocol}://${req.headers.host}/${url[targetUrlbis]}`;
+                                    })
                                 })
                             } catch (error) {}
                         }
@@ -49,9 +51,11 @@ module.exports = {
                             ele[targetUrl] = `${req.protocol}://${req.headers.host}/${ele[targetUrl]}`;
                         if (typeof ele[targetUrl] === "object") {
                             try {
-                                Object.keys(ele[targetUrl][0]._doc).map((targetUrlbis) => {
-                                    if (fs.existsSync(`./${ele[targetUrl][0][targetUrlbis]}`))
-                                        ele[targetUrl][0][targetUrlbis] = `${req.protocol}://${req.headers.host}/${ele[targetUrl][0][targetUrlbis]}`;
+                                Object.keys(ele[targetUrl][0]._doc).map((targetUrlbis, j) => {
+                                    ele[targetUrl].map(url => {
+                                        if (fs.existsSync(`./${url[targetUrlbis]}`))
+                                            url[targetUrlbis] = `${req.protocol}://${req.headers.host}/${url[targetUrlbis]}`;
+                                    })
                                 })
                             } catch (error) {}
                         }

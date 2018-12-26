@@ -9,6 +9,7 @@
             <div class="column is-12 is-full-centered">
               <div class="is-circle has-background-white padding-box-list">
                 <!-- nombre -->
+                <h1 class="title is-1">{{data.order}}</h1>
               </div>
             </div>
             <div class="column is-12 is-full-centered">
@@ -19,6 +20,11 @@
                       <div class="column is-2 is-paddingless"></div>
                       <div class="column is-10 is-paddingless">
                         <!-- input number -->
+                        <input
+                          class="input is-backgroundless is-borderless is-shadowless"
+                          type="number"
+                          v-model="data.order"
+                        >
                       </div>
                     </div>
                   </div>
@@ -46,6 +52,7 @@
                       <input
                         class="input is-backgroundless is-borderless is-shadowless"
                         type="text"
+                        v-model="data.title"
                       >
                     </div>
                   </div>
@@ -68,12 +75,13 @@
                   <div class="columns is-mobile">
                     <div class="column is-2 is-paddingless"></div>
                     <div class="column is-10 is-paddingless">
-                      <div class="select is-rounded test">
+                      <div v-if="$route.name==='new'" class="select is-rounded test">
                         <select>
                           <option>Items</option>
                           <option>Single</option>
                         </select>
                       </div>
+                      <p v-else>{{data.types}}</p>
                     </div>
                   </div>
                 </div>
@@ -84,15 +92,18 @@
         </div>
       </div>
     </div>
-    <div class="columns">
-      <div class="column is-12">
-        <glide>
-          <glide-slide v-for="i in 10" :key="i">
-              <p class="">text</p>
-          </glide-slide>
-        </glide>
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div v-if="!data.contents"></div>
+        <div v-else class="swiper-slide shad" v-for="(contents,i) in data.contents" :key="i">
+          <component-slide :element="contents"></component-slide>
+        </div>
       </div>
+      <!-- Add Pagination -->
+      <div class="swiper-pagination"></div>
     </div>
+
+    <!-- {{data.contents[i]}} -->
     <div class="container">
       <div class="columns is-mobile">
         <div class="column is-4"></div>
@@ -119,28 +130,63 @@
 </template>
 <script>
 //slide swiper js
+import Page from "@/services/page";
+import ComponentSlide from "./ComponentSlide";
+import Swiper from "swiper/dist/js/swiper.min.js";
 export default {
   name: "PageForm",
-  created() {}
-
+  components: {
+    ComponentSlide
+  },
+  data() {
+    return {
+      data: {}
+    };
+  },
+  beforeMount() {
+    this.callGetApi();
+  },
+  updated() {
+    this.paramsSlide();
+  },
+  methods: {
+    callGetApi() {
+      if (this.$route.name === "edit") {
+        Page.ViewsTarget(this.$route.query.q).then(data => {
+          this.data = data.data.val[0];
+        });
+      }
+    },
+    paramsSlide() {
+      var swiper = new Swiper(".swiper-container", {
+        slidesPerView: 5,
+        spaceBetween: 20,
+        pagination: {
+          el: ".swiper-pagination"
+        },
+        breakpoints: {
+          932: {
+            slidesPerView: 2,
+            spaceBetween: 10
+          },
+          427: {
+            slidesPerView: 1,
+            spaceBetween: 10
+          }
+        }
+      });
+    }
+  }
 };
 
-// algo tri pour slide
-// var items = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27];
-// var arrtoto = []
-// var arrpack = []
-// var numbColumns = 0
-
-// for(var i=1; i<items.length+1;i++){
-// arrpack.push(items[i-1])
-// if(i%8==0 || i==items.length){
-// 	arrtoto.push(arrpack)
-//   arrpack=[]
-//   }
-// }
 // console.log(arrtoto)
 </script>
 <style>
-/* box-shadow: 0 3rem 3rem -1rem rgba(10,10,10,.2); */
+.shad {
+  box-shadow: 0 3rem 3rem -1rem rgba(10, 10, 10, 0.2);
+}
+.swiper-container {
+  overflow: initial !important;
+}
 </style>
 

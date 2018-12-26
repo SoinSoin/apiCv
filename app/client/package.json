@@ -20,8 +20,8 @@
     "node-sass": "^4.10.0",
     "npm": "^6.4.1",
     "sass-loader": "^7.1.0",
+    "swiper": "^4.4.2",
     "vue": "^2.5.2",
-    "vue-glide-js": "^1.2.0",
     "vue-router": "^3.0.1",
     "vue2-dropzone": "^3.5.2"
   },
