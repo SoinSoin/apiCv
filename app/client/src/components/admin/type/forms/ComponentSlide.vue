@@ -1,12 +1,12 @@
 <template>
-  <div class="box is-marginless">
+  <div class="box is-marginless border-test">
     <div class="columns">
       <div class="column is-12">
         <h6 class="title is-6">{{element.titles}}</h6>
       </div>
     </div>
     <div class="columns">
-      <div class="column is-12">
+      <div class="column is-12 is-paddingless is-marginless is-full-centered">
         <figure class="image is-64x64">
           <img v-if="element.image" :src="element.image">
         </figure>
@@ -14,7 +14,7 @@
     </div>
     <div class="columns">
       <div class="column is-12">
-        <p>{{element.text}}</p>
+        <p class="is-size-7" >{{element.text}}</p>
       </div>
     </div>
     <div class="columns">
@@ -30,7 +30,7 @@ export default {
   },
   beforeMount() {
     var arrPara = this.$props.element.text.split(" ");
-    if (arrPara > 14) this.resizePara(arrPara);
+    if (arrPara.length > 14) this.resizePara(arrPara);
   },
   methods: {
     resizePara(arrPara) {
@@ -46,4 +46,10 @@ export default {
   }
 };
 </script>
+<style>
+.border-test{
+  border-radius:10px !important;
+}
+</style>
+
 

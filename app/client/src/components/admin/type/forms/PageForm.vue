@@ -62,7 +62,7 @@
           </div>
           <div class="column is-1"></div>
         </div>
-        <div class="columns is-8">
+        <div v-if="$route.name==='new'" class="columns is-8">
           <div class="column is-3 is-full-centered">
             <div class="box padding-box-list is-full-centered is-circle">
               <font-awesome-icon fas icon="id-card" size="lg"/>
@@ -75,13 +75,12 @@
                   <div class="columns is-mobile">
                     <div class="column is-2 is-paddingless"></div>
                     <div class="column is-10 is-paddingless">
-                      <div v-if="$route.name==='new'" class="select is-rounded test">
+                      <div class="select is-rounded test">
                         <select>
                           <option>Items</option>
                           <option>Single</option>
                         </select>
                       </div>
-                      <p v-else>{{data.types}}</p>
                     </div>
                   </div>
                 </div>
@@ -92,11 +91,21 @@
         </div>
       </div>
     </div>
+    <div v-if="$route.name==='edit'" class="columns">
+      <div class="column is-2 is-full-centered">
+        <div class="box padding-box-list is-circle">
+          <font-awesome-icon fas icon="clone" size="lg"/>
+        </div>
+      </div>
+      <div class="column is-10">
+        <p class="title is-3 has-text-white is-capitalized">{{data.types}}:</p>
+      </div>
+    </div>
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <div v-if="!data.contents"></div>
-        <div v-else class="swiper-slide shad" v-for="(contents,i) in data.contents" :key="i">
-          <component-slide :element="contents"></component-slide>
+        <div v-else class="swiper-slide" v-for="(contents,i) in data.contents" :key="i">
+          <component-slide class="shad test" :element="contents"></component-slide>
         </div>
       </div>
       <!-- Add Pagination -->
@@ -159,7 +168,7 @@ export default {
     },
     paramsSlide() {
       var swiper = new Swiper(".swiper-container", {
-        slidesPerView: 5,
+        slidesPerView: 6,
         spaceBetween: 20,
         pagination: {
           el: ".swiper-pagination"
@@ -183,10 +192,15 @@ export default {
 </script>
 <style>
 .shad {
-  box-shadow: 0 3rem 3rem -1rem rgba(10, 10, 10, 0.2);
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
 }
 .swiper-container {
   overflow: initial !important;
+}
+.test {
+  max-width: 160px;
+  max-height: 260px;
 }
 </style>
 

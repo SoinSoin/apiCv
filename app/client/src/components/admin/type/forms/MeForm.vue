@@ -221,8 +221,8 @@
 
 <script>
 import Me from "@/services/me";
-import Modal from "@/components/global/Modal";
-import Toast from "@/components/global/Toast";
+import Modal from "@/components/admin/global/Modal/Modal";
+import Toast from "@/components/admin/global/Toast";
 export default {
   name: "MeForm",
   components: {

@@ -8,7 +8,7 @@ export default {
     return await Url().get(`/page/${id}`)
   },
   async updateAddPage(data) {
-    return await Url().put(`page/update/${data.id}`, data.value, {
+    return await Url().put(`page/update-add/${data.id}`, data.value, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'content-type': 'application/json; charset=utf-8',
@@ -17,7 +17,7 @@ export default {
     })
   },
   async updateRmPage(data) {
-    return await Url().put(`page/update/${data.idPage}/${data.idContent}`)
+    return await Url().put(`page/update-remove/${data.idPage}/${data.idContent}`)
   },
   async createPage(data) {
     return await Url().post(`page/create`, data, {

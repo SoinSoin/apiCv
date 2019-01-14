@@ -14,7 +14,7 @@
 
 <script>
 // import components
-import ErrorPage from "@/components/global/Errorpage";
+import ErrorPage from "@/components/admin/global/Errorpage";
 import MeList from "./MeList";
 import PageList from "./PageList";
 // import service

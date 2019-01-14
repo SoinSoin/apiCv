@@ -1,5 +1,6 @@
 const Page = require('../models/Page');
 const fs = require('fs');
+const Content = require('./childs/Page/ControllerContent')
 
 module.exports = {
     getAllPage(req, res, next) {
@@ -73,65 +74,53 @@ module.exports = {
     },
 
     createPage(req, res, next) {
+        Page.page.create(req.body).then((page) => {
+            res.send({
+                msg: `${page.title} a bien été créé`
+            });
+        }).catch((next) => {
+            res.send({
+                msg: `Nous rencontrons des difficultés. Veuillez réessayer dans un instant.`
+            });
+        })
+    },
+
+    updatePage(req, res, next) {
+        // faire une modificatioin glovbale en amont puis ensuite modifié au cas par  cas le contentenu dans les methodes du controllercontent
         try {
             req.body.contents.image = req.file.path;
         } catch (error) {}
-        Page.contentPage.create(req.body.contents).then((test) => {
-            req.body.contents = [test._id]
-            Page.page.create(req.body).then((page) => {
-                res.send(page);
-            }).catch((next) => {
-                res.send({
-                    msg: `Nous rencontrons des difficultés. Veuillez réessayer dans un instant.`
-                });
-            })
+
+        // 1 je traite les contenus dans les methodes ci dessous
+        switch (req.params.methode) {
+            case 'create':
+                Content.createContent(req)
+                break;
+            case 'update':
+                Content.updateContent(req)
+                break;
+            case 'delete':
+                Content.deleteContent(req)
+                break;
+            default:
+                break;
+        }
+        // 2 je supprime les contenus
+        delete req.body.contents;
+        // 3 les propriétés global de mon entité sont modifié ici quoi qu'il advienne
+        Page.page.findOneAndUpdate({
+            _id: req.params._idPage
+        }, req.body).then((page) => {
+            res.send({
+                msg: `${page.title} a bien été modifié`
+            });
+        }).catch((next) => {
+            res.send({
+                msg: `Une erreur est survenue. Veuillez réessayer dans un instant.`
+            });
         })
     },
-    updatePageAdd(req, res, next) {
-        try {
-            req.body.contents.image = req.file.path;
-        } catch (error) {}
-        Page.contentPage.create(req.body.contents).then((contentPage) => {
-            delete req.body.contents;
-            req.body['$push'] = {
-                contents: contentPage._id
-            }
-            Page.page.findOneAndUpdate({
-                _id: req.params._id
-            }, req.body).then((page) => {
-                res.send({
-                    msg: `${contentPage.titles} a bien été ajouté à ${page.title}`
-                });
-            }).catch((next) => {
-                res.send({
-                    msg: `Une erreur est survenue lors de l'ajout de ${contentPage.titles} ou l'image n'est pas au format: jpg | jpeg | svg | png. Veuillez réessayer dans un instant.`
-                });
-            })
-        })
-    },
-    updatePageRemove(req, res, next) {
-        Page.contentPage.findOneAndRemove({
-            _id: req.params._idContent
-        }).then((contentPage) => {
-            if (fs.existsSync(`./${contentPage.image}`))
-                fs.unlinkSync(`./${contentPage.image}`);
-            Page.page.findOneAndUpdate({
-                _id: req.params._idPage
-            }, {
-                $pull: {
-                    contents: contentPage._id
-                }
-            }).then((page) => {
-                res.send({
-                    msg: `${contentPage.titles} a bien été supprimé`
-                });
-            }).catch((next) => {
-                res.send({
-                    msg: `Une erreur est survenue lors de la suppression de ${contentPage.titles}. Veuillez réessayer dans un instant.`
-                });
-            })
-        })
-    },
+
     deletePage(req, res, next) {
         Page.page.findOneAndDelete({
             _id: req.params.id

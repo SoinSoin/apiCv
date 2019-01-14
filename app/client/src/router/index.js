@@ -1,10 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from '@/components/home/Index'
-import forms from '@/components/type/forms/Index'
-import Lists from '@/components/type/Lists/Index'
-import type from '@/components/type/Type'
-import modal from '@/components/global/Modal'
+import home from '@/components/admin/home/Index'
+import type from '@/components/admin/type/Index'
+import modal from '@/components/admin/global/Modal/Modal'
 
 Vue.use(Router)
 
@@ -22,7 +20,6 @@ export default new Router({
     children: [{
         path: '',
         name: 'list',
-        component: Lists,
         children: [{
           path: 'delete/:name',
           name: 'delete',
@@ -32,12 +29,10 @@ export default new Router({
       {
         path: 'edit/:name',
         name: 'edit',
-        component: forms
       },
       {
         path: 'new/',
         name: 'new',
-        component: forms
       },
     ]
   }]
